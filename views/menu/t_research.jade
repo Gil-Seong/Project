@@ -1,0 +1,51 @@
+doctype html
+html
+ head
+  meta(charset ='utf-8' name='viewport' content='user-scalable=no, width=device-width, initial-scale=1' )
+  // mobile stylesheet
+  link(rel = 'stylesheet' href='css/mobilestyle.css' media='screen and (max-width:699px)')
+  link(rel = 'stylesheet' href='http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css' media='screen and (max-width:699px)')
+  script(src='http://code.jquery.com/jquery-1.9.1.min.js')
+  script(src='http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js')
+
+ body
+          div(data-role='header', data-position='fixed', data-fullscreen='true')
+            a(href='/', data-rel='back', data-icon='back') Back
+            a(href='/', data-icon='home', data-iconpos='notext') 홈
+            h1 Hello research
+
+            //선생님일 경우
+          div(data-role='content')
+
+           div(data-role='navbar').search_add_board
+             a(href='/add_class') 글쓰기
+
+             each row in rows1
+
+                div.li_size
+                 a(href="/detailed_research?cid=#{row.cid}")
+                  div
+                    img(src='http://127.0.0.1:3001/#{row.userfile}' width='150' height='200')
+                  div
+                    br
+                    ul
+                     li=row.name
+                    ul
+                     li=row.class_title
+                    ul
+                     li=row.expense
+
+          div(data-role='footer', data-position='fixed')
+           div(data-role='navbar')
+            ul
+              li
+                a.ui-btn-active(href='/research',data-transition='slide', data-icon='search') 과외찾기
+              li
+                a(href='/mystudy',data-transition='slide', data-icon='bullets') 마이과외
+              li
+                a(href='/mypage',data-transition='slide', data-icon='user') 마이페이지
+              li
+                a(href='/plus',data-transition='slide', data-icon='bars') 더보기
+
+          // navbar 끝
+        // footer 끝

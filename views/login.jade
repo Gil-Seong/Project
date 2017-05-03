@@ -1,0 +1,60 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset ='utf8' name='viewport' content='user-scalable=no, width=device-width, initial-scale=1' )
+    link(href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700|Lato:400,100,300,700,900', rel='stylesheet', type='text/css' media='screen and (min-width:700px)')
+
+    // PC stylesheet
+    link(rel='stylesheet', href='css/style.css' media='screen and (min-width:700px)')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js')
+
+    // mobile stylesheet
+    link(rel = 'stylesheet' href='http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css' media='screen and (max-width:699px)')
+    script(src='http://code.jquery.com/jquery-1.9.1.min.js')
+    script(src='http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js')
+  body
+     div(data-role='header', data-position='fixed', data-fullscreen='true')
+       a(href='/', data-rel='back', data-icon='back') Back
+       a(href='/', data-icon='home', data-iconpos='notext') 홈
+       h1 Login Page
+     .container
+      .top
+        h1#title.hidden
+          span#logo
+
+      .login-box.animated.fadeInUp
+        .box-header
+          h2 Log In
+
+        form(action='/login' method='post')
+          label(for='username') Username
+          br
+          input(type='text' name='userid' placeholder='userid')
+          br
+          label(for='password') Password
+          br
+          input(type='password' name='pass' placeholder='password')
+          br
+          input(type='submit' value='Sign In')
+        br
+        a(href='/adduser') 회원가입
+        br
+        a(href='#')
+          p.small Forgot your password?
+  script.
+    $(document).ready(function () {
+    $('#logo').addClass('animated fadeInDown');
+    $("input:text:visible:first").focus();
+    });
+    $('#username').focus(function() {
+    $('label[for="username"]').addClass('selected');
+    });
+    $('#username').blur(function() {
+    $('label[for="username"]').removeClass('selected');
+    });
+    $('#password').focus(function() {
+    $('label[for="password"]').addClass('selected');
+    });
+    $('#password').blur(function() {
+    $('label[for="password"]').removeClass('selected');
+    });

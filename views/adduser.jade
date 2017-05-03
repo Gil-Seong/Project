@@ -1,0 +1,111 @@
+doctype html
+html
+ head
+
+
+   meta(charset ='utf8' name='viewport' content='user-scalable=no, width=device-width, initial-scale=1' )
+   //link(href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700|Lato:400,100,300,700,900', rel='stylesheet', type='text/css' media='screen and (min-width:800px)')
+
+   // PC stylesheet
+   //link(rel='stylesheet', href='css/style.css' media='screen and (min-width:700px)')
+   //script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js')
+
+   // mobile stylesheet
+   //link(rel = 'stylesheet' href='http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css' media='screen and (max-width:699px)')
+   //script(src='http://code.jquery.com/jquery-1.9.1.min.js')
+   script(src='http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js')
+   script(src='//code.jquery.com/jquery-1.11.0.min.js')
+   script(type='text/javascript', src='http://code.jquery.com/jquery-latest.min.js')
+   // 최신버전 제이쿼리
+   script.
+
+        $('#btn').click(function(){
+        });
+
+
+        //암호 확인
+        $(function(){
+        $('#pass').keyup(function(){
+        $('font[name=check]').text('');
+        }); //#pass.keyup
+        $('#chpass').keyup(function(){
+        if($('#pass').val()!=$('#chpass').val()){
+        $('font[name=check]').text('');
+        $('font[name=check]').html(" 암호틀림");
+        }else{
+        $('font[name=check]').text('');
+        $('font[name=check]').html(" 암호일치");
+        }
+        }); //#chpass.keyup
+
+
+        $('#phonenumber').keyup(function() {
+        if (event.which && (event.which > 36 && event.which < 58 ||
+        event.which > 95 && event.which <106 ||
+        event.which == 8 || event.which == 9)){
+        //alert("숫자다");
+        }else{
+        alert("숫자만 입력해주세요");
+        $('#phonenumber').val("");
+        $('#phonenumber').focus();
+        }
+        }); //#phone.keyup
+        });
+ body
+  H1 Hello Adduser Page
+
+  form(action='/adduser' method='post')
+   p
+    input(type='text' name='userid' id='userid' placeholder='userid' require)
+    div(id='result')
+    button(type='button' id='btn')
+     |중복확인
+    script.
+          $('#btn').click(function(){
+          $('#result').html('');
+          $.ajax({
+          url:'check_id',
+          dataType:'json',
+          type:'POST',
+          data:{'userid': $('#userid').val()},
+          success:function(result) {  //ajax 성공시 result에 값이 들어온다.
+          if(result['result']==true){
+          $('#result').html(result['userid']);
+          }
+          }
+          });
+          });
+   p
+    input(type='password' name='pass' id='pass' placeholder='password' require)
+   p
+    input(type='password' name='chpass' id='chpass' placeholder='passwordcheck' require)
+    font(name='check' size='2' color='red')
+   p
+    input(type='text' name='name' placeholder='name' require)
+   p
+     input(type="radio" name="classify" value='선' require)
+     |선생님
+     input(type="radio" name="classify" value='학' require)
+     |학생&학부모
+   p
+    input(type="radio" name="gender" value='남' require)
+    |남자
+    input(type="radio" name="gender" value='여' require)
+    |여자
+   p
+    select(name='birthday' require)
+     option(value='') 출생년도 선택
+     - for(var i=1920;i<=2015;i++){
+      option(value=i) #{i}
+     - }
+
+
+   p
+    input(type='text' name='phonenumber' placeholder='phonenumber' id='phonenumber' require)
+   p
+    input(type='text' name='email' placeholder='이메일' require)
+   p
+    input(type='text' name='address' placeholder='address' require)
+
+   p
+    input(type='submit' value='확인')

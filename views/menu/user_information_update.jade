@@ -1,0 +1,97 @@
+doctype html
+html
+ head
+  meta(charset ='utf8' name='viewport' content='user-scalable=no, width=device-width, initial-scale=1' )
+  // mobile stylesheet
+  link(rel = 'stylesheet' href='http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css' media='screen and (max-width:699px)')
+  script(src='http://code.jquery.com/jquery-1.9.1.min.js')
+  script(src='http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js')
+  script.
+       $(function(){
+       $('#password').keyup(function(){
+       $('font[name=check]').text('');
+       }); //#password.keyup
+       $('#chpass').keyup(function(){
+       if($('#password').val()!=$('#chpass').val()){
+       $('font[name=check]').text('');
+       $('font[name=check]').html(" 암호틀림");
+       }else{
+       $('font[name=check]').text('');
+       $('font[name=check]').html(" 암호일치");
+       }
+       }); //#chpass.keyup
+       });
+
+ body
+        div(data-role='header', data-position='fixed', data-fullscreen='true')
+          a(href='/', data-rel='back', data-icon='back') Back
+          a(href='/', data-icon='home', data-iconpos='notext') 홈
+
+          h1 Hello user_info_update page
+
+        div(data-role='content')
+           div(data-role='navbar')
+            h1 hello update
+
+             form(action='/mypage/user_info_update' method='post')
+              table(border="1")
+                tr
+                 td 아이디
+                 td= rows.userid
+                tr
+                 td 비밀번호
+                 td
+                  input(type='text' name='password' id='password')
+                tr
+                 td 비밀번호 확인
+                 td
+                  input(type='text' name='chpass' id='chpass')
+                tr
+                 td 이름
+                 td= rows.name
+                tr
+                 td 구분
+                 if(rows.classify=='선')
+                  td 선생님
+                 else if(rows.classify=='학')
+                  td 학생&학부모
+                tr
+                 td birthday
+                 td= rows.birthday
+                tr
+                 td 핸드폰번호
+                 td
+                  input(type='text' name='phonenumber' value=rows.phonenumber)
+                tr
+                 td Email
+                 td
+                  input(type='text' name='email' value=rows.email)
+                tr
+                 td 주소
+                 td
+                  input(type='text' name='address' value=rows.address)
+               input(type='submit' value='수정')
+
+
+
+
+
+
+
+
+
+
+
+        div(data-role='footer', data-position='fixed')
+         div(data-role='navbar')
+            ul
+              li
+                a(href='/research',data-transition='slide', data-icon='search') 과외찾기
+              li
+                a(href='/mystudy',data-transition='slide', data-icon='bullets') 마이과외
+              li
+                a.ui-btn-active(href='/mypage',data-transition='slide', data-icon='user') 마이페이지
+              li
+                a(href='/plus',data-transition='slide', data-icon='bars') 더보기
+          // navbar 끝
+        // footer 끝

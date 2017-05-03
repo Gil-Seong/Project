@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--meta(charset ='utf8' name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0')-->
+    <meta charset="utf8" name="viewport" content="user-scalable=no, width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700|Lato:400,100,300,700,900" rel="stylesheet" type="text/css" media="screen and (min-width:800px)">
+    <!-- PC stylesheet-->
+    <link rel="stylesheet" href="css/style.css" media="screen and (min-width:700px)">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <!-- mobile stylesheet-->
+    <link rel="stylesheet" href="css/mobilestyle.css" media="screen and (max-width:699px)">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css" media="screen and (max-width:699px)">
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+  </head>
+  <body>
+    <div id="page" data-role="page">
+      <div data-role="header" data-position="fixed" data-fullscreen="false">
+        <h1>HOME</h1>
+      </div>
+      <div data-role="content">
+        <div class="mainpage_content"><img src="images/mainpage.png" data-caption="메인페이지" style="max-width:100%; width:100vw;">
+
+          <script>   if(session!=0) </script>
+
+        </div>
+        <div class="mainpage_content login">
+          <p>
+           <a href='/research'> 시작하기</a>
+
+           <h2 <%=session%> >  </h2>
+            | 님께서 로그인 하셨습니다.
+          </P>
+           <p>
+           <script>
+            if(session == "bono915")
+            </script>
+             <a href='/management'> management</a></p>
+           <br>
+           <a href='/logout'> logout </a>
+           <script>else</script>
+             <div class ='mainpage_content').login
+
+          <p><a href="/login">login</a></p>
+        </div>
+      </div>
+
+    </div>
+  </body>
+</html>

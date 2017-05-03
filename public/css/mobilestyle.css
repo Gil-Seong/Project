@@ -1,0 +1,27 @@
+.mainpage_content {
+  align-content:center;
+  max-width:100%;
+  width:100%;
+  text-align:center;
+}
+
+.login{
+  align-content:center;
+  max-width:100%;
+  width:100%;
+}
+
+
+.search_add_board{
+margin-top: 10%;
+}
+
+.li_size{
+float: left;
+width: 46%;
+border: 1px solid #e0e0e0;
+height: 46%;
+position: relative;
+margin-bottom: 8px;
+margin-left: 9px;
+}
