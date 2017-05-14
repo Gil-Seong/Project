@@ -2,16 +2,17 @@ doctype html
 html(lang='en')
   head
     meta(charset ='utf8' name='viewport' content='user-scalable=no, width=device-width, initial-scale=1' )
-    link(href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700|Lato:400,100,300,700,900', rel='stylesheet', type='text/css' media='screen and (min-width:700px)')
+    //link(href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700|Lato:400,100,300,700,900', rel='stylesheet', type='text/css' media='screen and (min-width:700px)')
 
     // PC stylesheet
-    link(rel='stylesheet', href='css/style.css' media='screen and (min-width:700px)')
-    script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js')
+    //link(rel='stylesheet', href='css/style.css' media='screen and (min-width:700px)')
 
     // mobile stylesheet
-    link(rel = 'stylesheet' href='http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css' media='screen and (max-width:699px)')
-    script(src='http://code.jquery.com/jquery-1.9.1.min.js')
-    script(src='http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js')
+    script(src='/js/jquery.js')
+    link(rel='stylesheet' href='css/jquery.mobile-1.4.5.css' )
+    script(src='/js/jquery.mobile-1.4.5.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js')
+
   body
      div(data-role='header', data-position='fixed', data-fullscreen='true')
        a(href='/', data-rel='back', data-icon='back') Back

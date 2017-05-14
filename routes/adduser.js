@@ -16,11 +16,11 @@ var pool = mysql.createPool({
 
 
 
-app.get('/adduser',function(req,res){
+route.get('/adduser',function(req,res){
   res.render('adduser');
 });
 
-app.post('/adduser',function(req,res){
+route.post('/adduser',function(req,res){
   var userid=req.body.userid;
   var salt=userid;
   var pass=req.body.pass;

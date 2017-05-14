@@ -3,44 +3,119 @@ html
  head
   meta(charset ='utf8' name='viewport' content='user-scalable=no, width=device-width, initial-scale=1' )
   // mobile stylesheet
-  link(rel = 'stylesheet' href='css/mobilestyle.css' media='screen and (max-width:699px)')
-  link(rel = 'stylesheet' href='http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css' media='screen and (max-width:699px)')
-  script(src='http://code.jquery.com/jquery-1.9.1.min.js')
-  script(src='http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js')
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js')
+  script(src='/js/jquery.js')
+  link(rel='stylesheet' href='css/jquery.mobile-1.4.5.css' )
+  script(src='/js/jquery.mobile-1.4.5.js')
 
+  script.
+        $('#onoff').click(function(){
+        $('#result').html('');
+        $.ajax({
+        url:'check_id',
+        dataType:'json',
+        type:'POST',
+        data:{'userid': $('#userid').val()},
+        success:function(result) {  //ajax 성공시 result에 값이 들어온다.
+        if(result['result']==true){
+        $('#result').html(result['userid']);
+        }
+        }
+        });
+        });
 
 
  body
-          div(data-role='header', data-position='fixed', data-fullscreen='true')
-            a(href='/', data-rel='back', data-icon='back') Back
+
+          div(data-role='header', data-position='fixed', data-fullscreen='false')
+            a(href='/', data-rel='back', data-iconpos='notext') back
             a(href='/', data-icon='home', data-iconpos='notext') 홈
-            h1 Hello research
+            h1 수업 정보
 
-          div(data-role='content')
+          div(role='main' class='ui-content jqm-content jqm-fullwidth')
            div(data-role='navbar').search_add_board
-            |hello_dateiled_research
-            h3=rows.name
-            h3=rows.gender
-            h3=rows.birthday
-            h3=rows.phonenumber
-            h3=rows.email
-            h3=rows.address
-            h3=rows.class_title
-            h3=rows.class_subject
-            h3=rows.class_student
-            h3=rows.class_style
-            h3=rows.experience
-            h3=rows.expense
-            h3=rows.self_introduce
+             input(type='button'  id='onoff' value='#{apply}').applybtn
+             script.
+               $("#onoff").click(function(){
+               var value = $("#onoff").attr("value");    //value="OFF"를 가져온다.
+               if(value =="신청하기"){
+               //$("#onoff").attr("value","ON");   //속성중 value를 ON 으로 바꿔준다.
+               $.ajax({
+               url:'study_apply',
+               dataType:'json',
+               type:'POST',
+               data:{'apply': $('#onoff').val(),'cid':'#{cid}'},
+               success:function(apply) {  //ajax 성공시 result에 값이 들어온다.
+               if(apply['apply']==true){
+               $("#onoff").attr("value","신청취소");
+               alert('신청이 완료되었습니다.');
+               }
+               }
+               });
+               }else{
+               $("#onoff").attr("value","신청취소");
+               $.ajax({
+               url:'study_apply',
+               dataType:'json',
+               type:'POST',
+               data:{'apply': $('#onoff').val(),'cid':'#{cid}'},
+               success:function(apply) {  //ajax 성공시 result에 값이 들어온다.
+               if(apply['apply']==false){
+               $("#onoff").attr("value","신청하기");
 
+               alert('신청이 취소되었습니다.');
+               }
+               }
+               });
+               };
+               });
+             |hello_dateiled_research
+            div
+             h3=rows.class_subject
+             h3=rows.expense
+             h3=rows.class_title
+             h3=rows.name
+             h3=rows.birthday
+             h3=rows.gender
+             h3=rows.experience
+            div
+             |수업대상
+             h3=rows.class_student
+            div
+             |수업스타일
+             h3=rows.class_style
+            div
+             |기타 정보
+             h3=rows.phonenumber
+             h3=rows.email
+             h3=rows.address
+             h3=rows.self_introduce
+
+            div
+             if(cert==1)
+              form(action='/update_class' method='post')
+               input(type='hidden' name='cid' value='#{cid}')
+               input(type='submit' value='수정')
+
+              form(action='/delete_class' method='post')
+               input(type='hidden' name='cid' value='#{cid}')
+               input(type='submit' value='삭제' id='delete')
+               script.
+                $("#delete").click(function(){
+                alert('삭제되었습니다.');
+                });
+
+              form(action='/apply_confirm' method='get')
+               input(type='hidden' name='cid' value='#{cid}')
+               input(type='submit' value='신청자 보기')
 
 
 
           div(data-role='footer', data-position='fixed')
-           div(data-role='navbar')
+           div(data-role='navbar' )
             ul
               li
-                a.ui-btn-active(href='/research',data-transition='slide', data-icon='search') 과외찾기
+                a.ui-btn-active(href='/research',data-transition='slide', data-icon='search' ) 과외찾기
               li
                 a(href='/mystudy',data-transition='slide', data-icon='bullets') 마이과외
               li

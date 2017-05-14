@@ -1,0 +1,98 @@
+doctype html
+html
+ head
+  meta(charset ='utf-8' name='viewport' content='user-scalable=no, width=device-width, initial-scale=1' )
+  // mobile stylesheet
+  link(rel = 'stylesheet' href='css/mobilestyle.css' media='screen and (max-width:699px)')
+  script(src='/js/jquery.js')
+  link(rel='stylesheet' href='css/jquery.mobile-1.4.5.css' )
+  script(src='/js/jquery.mobile-1.4.5.js')
+
+ body
+           div(data-role='header', data-position='fixed', data-fullscreen='true')
+             a(href='/', data-rel='back', data-icon='back') Back
+             a(href='/', data-icon='home', data-iconpos='notext') 홈
+             h1 Hello research
+
+           div(data-role='content')
+            div(data-role='navbar')
+              form(action='/add_class' method='post' enctype="multipart/form-data")
+                input(type='file' name='userfile' value='ss')
+                input(type='text' name='class_title' placeholder='수강 제목' require)
+                input(type='text' name='class_subject' placeholder='수강 과목' require)
+                //input(type='text' name='class_student' placeholder='수업 대상' require)
+
+                | 수업대상
+                input(type='checkbox' name='class_student' id='student_ch1' value='유치원생')
+                label(for='student_ch1')
+                 |유치원생
+                input(type='checkbox' name='class_student' id='student_ch2' value='초등학생')
+                label(for='student_ch2')
+                 |초등학생
+                input(type='checkbox' name='class_student' id='student_ch3' value='중학생')
+                label(for='student_ch3')
+                 |중학생
+                input(type='checkbox' name='class_student' id='student_ch4' value='고등학생')
+                label(for='student_ch4')
+                 |고등학생
+                input(type='checkbox' name='class_student' id='student_ch5' value='재수생')
+                label(for='student_ch5')
+                 |재수생
+                input(type='checkbox' name='class_student' id='student_ch6' value='고시생')
+                label(for='student_ch6')
+                 |고시생
+                input(type='checkbox' name='class_student' id='student_ch7' value='일반인')
+                label(for='student_ch7')
+                 |일반인
+                 br
+
+                | 수업스타일
+                input(type='checkbox' name='class_style' id='style_ch1' value='체계적인')
+                label(for='style_ch1')
+                 |체계적인
+                input(type='checkbox' name='class_style' id='style_ch2' value='센스있는')
+                label(for='style_ch2')
+                 |센스있는
+                input(type='checkbox' name='class_style' id='style_ch3' value='책임감있는')
+                label(for='style_ch3')
+                 |책임감있는
+                input(type='checkbox' name='class_style' id='style_ch4' value='성실한' )
+                label(for='style_ch4')
+                 |성실한
+                input(type='checkbox' name='class_style' id='style_ch5' value='유머러스한')
+                label(for='style_ch5')
+                 |유머러스한
+                input(type='checkbox' name='class_style' id='style_ch6' value='자상한' )
+                label(for='style_ch6')
+                 |자상한
+                input(type='checkbox' name='class_style' id='style_ch7' value='적극적인')
+                label(for='style_ch7')
+                 |적극적인
+                input(type='checkbox' name='class_style' id='style_ch8' value='자유로운')
+                label(for='style_ch8')
+                 |자유로운
+                input(type='checkbox' name='class_style' id='style_ch9' value='재치있는')
+                label(for='style_ch9')
+                 |재치있는
+                input(type='text' name='experience' placeholder='과외 경력' require)
+                input(type='text' name='expense' placeholder='희망 과외비' require)
+
+                |자기소개
+                textarea(name='self_introduce')
+                input(type='submit' value='확인')
+
+
+           div(data-role='footer', data-position='fixed')
+            div(data-role='navbar')
+             ul
+               li
+                 a.ui-btn-active(href='/research',data-transition='slide', data-icon='search') 과외찾기
+               li
+                 a(href='/mystudy',data-transition='slide', data-icon='bullets') 마이과외
+               li
+                 a(href='/mypage',data-transition='slide', data-icon='user') 마이페이지
+               li
+                 a(href='/plus',data-transition='slide', data-icon='bars') 더보기
+
+           // navbar 끝
+         // footer 끝

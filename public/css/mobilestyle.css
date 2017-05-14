@@ -13,15 +13,24 @@
 
 
 .search_add_board{
-margin-top: 10%;
+margin-top:10%;
 }
 
 .li_size{
 float: left;
 width: 46%;
 border: 1px solid #e0e0e0;
-height: 46%;
+height: 500px;
 position: relative;
 margin-bottom: 8px;
 margin-left: 9px;
+}
+
+.applybtn{
+  width: 140px;
+  height: 40px;
+}
+
+.tablesize{
+  padding-top: 100px;
 }

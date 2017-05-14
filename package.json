@@ -18,5 +18,13 @@
   },
   "author": "",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gil-Seong/Project.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Gil-Seong/Project/issues"
+  },
+  "homepage": "https://github.com/Gil-Seong/Project#readme",
   "description": ""
 }

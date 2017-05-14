@@ -5,10 +5,10 @@ var route = express.Router();
 var multer = require('multer');
 var _storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads/')
+    cb(null, 'uploads/');
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname);
+      cb(null, req.session.displayName+file.originalname);
   }
 });
 var upload = multer({ storage: _storage})
@@ -33,9 +33,20 @@ route.get('/test',function(req,res){
 });
 
 route.post('/add_class', upload.single('userfile'), function(req,res){
-  var userfile = req.file.originalname;
-  var tmp_path = req.file.path;
-  var target_path = 'uploads/' +req.file.originalname;
+
+var userfile = req.session.displayName+req.file.originalname;
+
+//   if(req.file.size==0){
+//   var userfile = "default_img.png";
+// }else{
+//   var userfile = req.session.displayName+req.file.originalname;
+//
+// }
+  // if(userifle==null){
+  //   userfile ="default_img.png";
+  // }
+  // var tmp_path = req.file.path;
+  // var target_path = 'uploads/' +userfile;
 
   var class_title = req.body.class_title;
   var class_subject = req.body.class_subject;
@@ -44,7 +55,6 @@ route.post('/add_class', upload.single('userfile'), function(req,res){
   var experience = req.body.experience;
   var expense = req.body.expense;
   var self_introduce = req.body.self_introduce;
-
   var userid = req.session.displayName;
   console.log(class_title);
   console.log(class_subject);
@@ -53,11 +63,8 @@ route.post('/add_class', upload.single('userfile'), function(req,res){
   console.log(experience);
   console.log(expense);
   console.log(self_introduce);
-
-
   console.log(userfile);
-  console.log(tmp_path);
-  console.log(target_path);
+
 
 
   pool.getConnection(function(err,conn){

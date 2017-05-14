@@ -13,16 +13,7 @@ var pool = mysql.createPool({
     debug    :  false
 });
 
-app.get('/research',function(req,res){
-  pool.getConnection(function(err,conn){
-      if (err) {
-        console.log({"code" : 100, "status" : "Error in connection database"});
-        return;
-      }
-      var sql = 'SELECT name,cid,userfile,class_title,expense FROM user,class WHERE user.userid=class.userid';
-      conn.query(sql,function(err1,rows1,fields1){
-          conn.release();
-          if(!err1) {
+route.get('/research',function(req,res){
                  var userid=req.session.displayName;
                  var sql1 ='SELECT classify FROM user where userid="'+userid+'"';
                  pool.getConnection(function(err,conn){
@@ -35,18 +26,42 @@ app.get('/research',function(req,res){
                          if(!err) {
                            console.log(rows[0].classify);
                            if(rows[0].classify == '선'){
-                             res.render('menu/t_research',{rows1:rows1});
+                             pool.getConnection(function(err,conn){
+                               var sql2 = 'SELECT name,cid,userfile,class_title,expense FROM user,class WHERE user.userid=class.userid AND class.userid="'+userid+'"';
+                                 if (err) {
+                                   console.log({"code" : 100, "status" : "Error in connection database"});
+                                   return;
+                                 }
+                                 conn.query(sql2,function(err,rows1,fields){
+                                   console.log(rows[0]);
+                                     conn.release();
+                                     if(!err) {
+                                         res.render('menu/t_research',{rows1:rows1});
+                                     }
+                                 });
+                             });
+
+
                            }else {
-                             res.render('menu/s_research',{rows1:rows1});
+                             pool.getConnection(function(err,conn){
+                               var sql2 = 'SELECT name,cid,userfile,class_title,expense FROM user,class WHERE user.userid=class.userid';
+                                 if (err) {
+                                   console.log({"code" : 100, "status" : "Error in connection database"});
+                                   return;
+                                 }
+                                 conn.query(sql2,function(err,rows1,fields){
+                                   console.log(rows[0]);
+                                     conn.release();
+                                     if(!err) {
+                                         res.render('menu/s_research',{rows1:rows1});
+                                     }
+                                 });
+                             });
+
                            }
                          }
                      });
                  });
-          }
-      });
-  });
-
-
   ///////////////////////////////////////////////////////////// 과외 찾기 페이지를 "선생", "학생&학부모" 분류하기 위한 소스
 
 });

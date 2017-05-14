@@ -14,11 +14,11 @@ var pool = mysql.createPool({
     debug    :  false
 });
 
-app.get('/mypage',function(req,res){
+route.get('/mypage',function(req,res){
   res.render('menu/mypage');
 });
 
-app.get('/mypage/user_info_update',function(req,res){
+route.get('/mypage/user_info_update',function(req,res){
 
   var userid = req.session.displayName;
     console.log("displayname test1 : " +req.session.displayName);
@@ -41,7 +41,7 @@ app.get('/mypage/user_info_update',function(req,res){
 
 });
 
-app.post('/mypage/user_info_update',function(req,res){
+route.post('/mypage/user_info_update',function(req,res){
   console.log("displayname test2 : " +req.session.displayName);
   var pass = req.body.password;
   var salt=req.session.displayName;

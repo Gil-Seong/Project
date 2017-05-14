@@ -4,28 +4,22 @@ var MySQLStore = require('express-mysql-session')(expressSession);
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
 var sha256 = require('sha256');
-
 var cluster = require('cluster');
 var numCPUs = require('os').cpus().length;
-
 if (cluster.isMaster) {
     for (var i = 0; i < numCPUs; i++ ) {
         // Create a worker
         cluster.fork();
     }
 } else {
-
 var app = express();
-
 
 app.set('view engine', 'jade');
 app.set('views','./views'); //앞의 views는 필수, 뒤의 ./views는 폴더이름
-
 app.locals.pretty =true; // jade의 소스를 예쁘게 정리한다.
 app.use(bodyParser.urlencoded({extended:false})) // body-parser을 사용하기 위한 명령어
 app.use(express.static('uploads/')); //이미지 저장소
 app.use(express.static('public')); //정적인 페이지 사용
-
 
 var pool = mysql.createPool({
     connectionLimit : 100, //important
@@ -35,7 +29,6 @@ var pool = mysql.createPool({
     database : 'o4',
     debug    :  false
 });
-
 
 app.use(expressSession({
   secret:'gedga1gdfs$@%$%SDasda23',
@@ -50,10 +43,6 @@ app.use(expressSession({
       database: 'o4'
   })
 }));
-
-
-
-
 
 app.get('/',function(req,res){
 
@@ -72,7 +61,7 @@ app.get('/',function(req,res){
 
 });
 
-var management = require('./routes/management')(app); //app을 p1.js에게 제공 할 수 있다.
+var management = require('./routes/management')(app);
 app.use(management);
 
         //ajax에서 오는 요청을 받을 요청명 /check_id
@@ -100,7 +89,10 @@ app.use(management);
             });
 		});
 
-var login = require('./routes/login')(app); //app을 p1.js에게 제공 할 수 있다.
+var study_apply = require('./routes/study_apply')(app);
+app.use(study_apply);
+
+var login = require('./routes/login')(app);
 app.use(login);
 
 app.get('/welcome', function(req,res){
@@ -108,16 +100,13 @@ app.get('/welcome', function(req,res){
   res.redirect('/');
 });
 
-
-var adduser = require('./routes/adduser')(app); //app을 p1.js에게 제공 할 수 있다.
+var adduser = require('./routes/adduser')(app);
 app.use(adduser);
 
-
-var add_class = require('./routes/add_class')(app); //app을 p1.js에게 제공 할 수 있다.
+var add_class = require('./routes/add_class')(app);
 app.use(add_class);
 
-
-var mypage = require('./routes/mypage')(app); //app을 p1.js에게 제공 할 수 있다.
+var mypage = require('./routes/mypage')(app);
 app.use(mypage);
 
 app.get('/mystudy',function(req,res){
@@ -127,16 +116,25 @@ app.get('/plus',function(req,res){
   res.render('menu/plus');
 });
 
+var apply_confirm = require('./routes/apply_confirm')(app);
+app.use(apply_confirm);
+
+
 var detailed_research = require('./routes/detailed_research')(app);
 app.use(detailed_research);
 
-var research = require('./routes/research')(app); //app을 p1.js에게 제공 할 수 있다.
+var research = require('./routes/research')(app);
 app.use(research);
+
+var update_class = require('./routes/update_class')(app);
+app.use(update_class);
+
+var delete_class = require('./routes/delete_class')(app);
+app.use(delete_class);
 
 
 //const hostname = '127.0.0.1';
 const port = 3001;
-
 app.listen(3001, function(){
   console.log('conneced 3001 port!');
 });

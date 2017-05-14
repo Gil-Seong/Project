@@ -14,7 +14,7 @@ var pool = mysql.createPool({
     debug    :  false
 });
 
-app.use(expressSession({
+route.use(expressSession({
   secret:'gedga1gdfs$@%$%SDasda23',
   resave:false,
   saveUninitialized:true,
@@ -28,11 +28,11 @@ app.use(expressSession({
   })
 }));
 
-app.get('/login',function(req,res){
+route.get('/login',function(req,res){
   res.render('login');
 });
 
-app.post('/login',function(req,res){
+route.post('/login',function(req,res){
   var userid=req.body.userid; //사용자가 현재 입력한 id값.
   var pass=req.body.pass; // 사용자가 현재 입력한 password값.
   var salt=userid;
@@ -67,7 +67,7 @@ app.post('/login',function(req,res){
 
   });
 
-  app.get('/logout',function(req,res){
+  route.get('/logout',function(req,res){
     delete req.session.displayName; //
     req.session.save(function(){ //데이터 스토어에 저장이 끝났을때 실행한다. 보통 redirect문을 쓸때 같이 사용한다.
         res.redirect('/');
