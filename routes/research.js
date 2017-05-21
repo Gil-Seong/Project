@@ -4,6 +4,8 @@ var express = require('express');
 var route = express.Router();
 var MySQLStore = require('express-mysql-session')(expressSession);
 var mysql = require('mysql');
+var os = require('os');
+var ifaces = os.networkInterfaces();
 var pool = mysql.createPool({
     connectionLimit : 100, //important
     host     : 'localhost',
@@ -13,6 +15,17 @@ var pool = mysql.createPool({
     debug    :  false
 });
 
+var ip_address = null;
+Object.keys(ifaces).forEach(function (ifname) { //ip 주소를 가져옴.
+  ifaces[ifname].forEach(function (iface) {
+    if ('IPv4' !== iface.family || iface.internal !== false) {
+      // skip over internal (i.e. 127.0.0.1) and non-ipv4 addresses
+      return;
+    }
+    ip_address =iface.address
+  });
+});
+console.log(ip_address);
 route.get('/research',function(req,res){
                  var userid=req.session.displayName;
                  var sql1 ='SELECT classify FROM user where userid="'+userid+'"';
@@ -36,7 +49,7 @@ route.get('/research',function(req,res){
                                    console.log(rows[0]);
                                      conn.release();
                                      if(!err) {
-                                         res.render('menu/t_research',{rows1:rows1});
+                                         res.render('menu/t_research',{rows1:rows1,ip_address:ip_address});
                                      }
                                  });
                              });
@@ -53,7 +66,7 @@ route.get('/research',function(req,res){
                                    console.log(rows[0]);
                                      conn.release();
                                      if(!err) {
-                                         res.render('menu/s_research',{rows1:rows1});
+                                         res.render('menu/s_research',{rows1:rows1,ip_address:ip_address});
                                      }
                                  });
                              });

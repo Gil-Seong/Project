@@ -34,6 +34,7 @@ route.post('/adduser',function(req,res){
   var address=req.body.address;
   var a=0;
 
+console.log(birthday);
   var sql1 ='SELECT userid FROM user';
 
   pool.getConnection(function(err,conn){

@@ -34,7 +34,7 @@ html
 
           div(role='main' class='ui-content jqm-content jqm-fullwidth')
            div(data-role='navbar').search_add_board
-             input(type='button'  id='onoff' value='#{apply}').applybtn
+             input(type='button'  id='onoff' value='#{apply}' onclick='location.reload();').applybtn
              script.
                $("#onoff").click(function(){
                var value = $("#onoff").attr("value");    //value="OFF"를 가져온다.
@@ -69,27 +69,30 @@ html
                });
                };
                });
-             |hello_dateiled_research
+
             div
-             h3=rows.class_subject
-             h3=rows.expense
-             h3=rows.class_title
-             h3=rows.name
-             h3=rows.birthday
-             h3=rows.gender
-             h3=rows.experience
-            div
-             |수업대상
-             h3=rows.class_student
-            div
-             |수업스타일
-             h3=rows.class_style
-            div
-             |기타 정보
-             h3=rows.phonenumber
-             h3=rows.email
-             h3=rows.address
-             h3=rows.self_introduce
+             |제목: #{rows.class_title}
+             br
+             |과목: #{rows.class_subject}
+             br
+             |비용: #{rows.expense}
+             br
+             |이름: #{rows.name}(#{rows.gender})
+             br
+             |생년월일: #{rows.birthday}
+             br
+             |과외경험: #{rows.experience}
+             br
+             |수업대상: #{rows.class_student}
+             br
+             |수업스타일: #{rows.class_style}
+             br
+             |연락처: #{rows.phonenumber}
+             br
+             |E-mail: #{rows.email}
+             br
+             |주소: #{rows.address}
+             h5=rows.self_introduce
 
             div
              if(cert==1)
@@ -118,6 +121,8 @@ html
                 a.ui-btn-active(href='/research',data-transition='slide', data-icon='search' ) 과외찾기
               li
                 a(href='/mystudy',data-transition='slide', data-icon='bullets') 마이과외
+              li
+                a(href='/chatting',data-transition='slide', data-icon='comment') 채팅
               li
                 a(href='/mypage',data-transition='slide', data-icon='user') 마이페이지
               li

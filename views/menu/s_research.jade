@@ -24,7 +24,7 @@ html
               div(data-role='controlgroup' data-filter='true' data-input='#filterControlgroup-input').li_size
                 a(href="/detailed_research?cid=#{row.cid}" class='ui-btn ui-shadow ui-corner-all')
                  div
-                   img(src='http://127.0.0.1:3001/#{row.userfile}')
+                   img(src='http://#{ip_address}:3001/#{row.userfile}' width='150px' height='150px')
                  div
                    br
                    ul
@@ -42,6 +42,8 @@ html
                 a.ui-btn-active(href='/research',data-transition='slide', data-icon='search') 과외찾기
               li
                 a(href='/mystudy',data-transition='slide', data-icon='bullets') 마이과외
+              li
+                a(href='/chatting',data-transition='slide', data-icon='comment') 채팅
               li
                 a(href='/mypage',data-transition='slide', data-icon='user') 마이페이지
               li

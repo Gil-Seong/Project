@@ -14,10 +14,14 @@ html(lang='en')
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js')
 
   body
-     div(data-role='header', data-position='fixed', data-fullscreen='true')
+     div(data-role='header', data-position='fixed', data-fullscreen='false')
        a(href='/', data-rel='back', data-icon='back') Back
        a(href='/', data-icon='home', data-iconpos='notext') 홈
        h1 Login Page
+
+
+
+
      .container
       .top
         h1#title.hidden
@@ -26,7 +30,9 @@ html(lang='en')
       .login-box.animated.fadeInUp
         .box-header
           h2 Log In
-
+        if(inconsistency=='inconsistency')
+          script.
+           alert('아이디와 비밀번호가 일치하지 않습니다..');
         form(action='/login' method='post')
           label(for='username') Username
           br
@@ -42,6 +48,8 @@ html(lang='en')
         br
         a(href='#')
           p.small Forgot your password?
+
+
   script.
     $(document).ready(function () {
     $('#logo').addClass('animated fadeInDown');

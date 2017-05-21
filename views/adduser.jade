@@ -93,13 +93,7 @@ html
     label(for='gender_woman')
      |여자
    p
-    select(name='birthday' require)
-     option(value='') 출생년도 선택
-     - for(var i=1920;i<=2015;i++){
-      option(value=i) #{i}
-     - }
-
-
+    input(type='date' name='birthday' value='')
    p
     input(type='text' name='phonenumber' placeholder='phonenumber' id='phonenumber' require)
    p

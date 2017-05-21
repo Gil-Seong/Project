@@ -4129,6 +4129,7 @@ textarea.ui-mini {
 /* Same margin for mini textareas as other mini sized widgets (12.5/14 * 0.5em) */
 .ui-mini textarea.ui-input-text,
 textarea.ui-mini {
+
 	margin: .446em 0;
 }
 .ui-input-has-clear,
@@ -4209,6 +4210,7 @@ for Android 4.1 */
 	box-shadow: none;
 }
 textarea.ui-input-text.ui-textinput-autogrow {
+
 	overflow: hidden;
 }
 .ui-textinput-autogrow-resize {

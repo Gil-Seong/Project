@@ -5,6 +5,9 @@ var bodyParser = require('body-parser');
 var mysql = require('mysql');
 var sha256 = require('sha256');
 var cluster = require('cluster');
+var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 var numCPUs = require('os').cpus().length;
 if (cluster.isMaster) {
     for (var i = 0; i < numCPUs; i++ ) {
@@ -12,7 +15,7 @@ if (cluster.isMaster) {
         cluster.fork();
     }
 } else {
-var app = express();
+
 
 app.set('view engine', 'jade');
 app.set('views','./views'); //앞의 views는 필수, 뒤의 ./views는 폴더이름
@@ -45,6 +48,7 @@ app.use(expressSession({
 }));
 
 app.get('/',function(req,res){
+
 
 
   if(req.session.displayName){
@@ -100,18 +104,47 @@ app.get('/welcome', function(req,res){
   res.redirect('/');
 });
 
+app.get('/chatting',function(req, res){
+  res.render('menu/chatting');
+  //res.sendfile('views/menu/chatting.jade');
+  //res.sendfile("views/menu/client.html");
+});
+
+var count=1;
+io.on('connection', function(socket){
+  console.log('user connected: ', socket.id);
+  var name = "user" + count++;
+  io.to(socket.id).emit('change name',name);
+
+  socket.on('disconnect', function(){
+    console.log('user disconnected: ', socket.id);
+  });
+
+  socket.on('send message', function(name,text){
+    var msg = name + ' : ' + text;
+    console.log(msg);
+    io.emit('receive message', msg);
+  });
+});
+
 var adduser = require('./routes/adduser')(app);
 app.use(adduser);
 
 var add_class = require('./routes/add_class')(app);
 app.use(add_class);
 
+// var chatting = require('./routes/chatting')(app);
+// app.use(chatting);
+
 var mypage = require('./routes/mypage')(app);
 app.use(mypage);
 
-app.get('/mystudy',function(req,res){
-  res.render('menu/mystudy');
-});
+var mystudy = require('./routes/mystudy')(app);
+app.use(mystudy);
+
+var add_curriculum = require('./routes/add_curriculum')(app);
+app.use(add_curriculum);
+
 app.get('/plus',function(req,res){
   res.render('menu/plus');
 });
@@ -132,10 +165,9 @@ app.use(update_class);
 var delete_class = require('./routes/delete_class')(app);
 app.use(delete_class);
 
-
 //const hostname = '127.0.0.1';
 const port = 3001;
-app.listen(3001, function(){
+http.listen(3001, function(){
   console.log('conneced 3001 port!');
 });
 }

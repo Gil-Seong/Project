@@ -59,7 +59,7 @@ route.post('/login',function(req,res){
 
                }else{
                  console.log('일치xx');
-                 res.redirect('/');
+                 res.render('../views/login',{inconsistency:'inconsistency'});
                }
           }
       });
