@@ -7,10 +7,10 @@ var MySQLStore = require('express-mysql-session')(expressSession);
 var mysql = require('mysql');
 var pool = mysql.createPool({
     connectionLimit : 100, //important
-    host     : 'localhost',
+    host     : '210.123.254.226',
     user     : 'root',
-    password : 'wjd0606',
-    database : 'o4',
+    password : 'wjdrlftjd123',
+    database : 'bono915',
     debug    :  false
 });
 
@@ -20,11 +20,11 @@ route.use(expressSession({
   saveUninitialized:true,
   store:new MySQLStore({ //다중 사용자가 가능하게 하기위해서 세션을 DB에 저장해야 한다.
 
-      host: 'localhost',
+      host: '210.123.254.226',
       port: 3306,
       user: 'root',
-      password: 'wjd0606',
-      database: 'o4'
+      password: 'wjdrlftjd123',
+      database: 'bono915'
   })
 }));
 

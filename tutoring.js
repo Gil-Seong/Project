@@ -26,10 +26,10 @@ app.use(express.static('public')); //정적인 페이지 사용
 
 var pool = mysql.createPool({
     connectionLimit : 100, //important
-    host     : 'localhost',
+    host     : '210.123.254.226',
     user     : 'root',
-    password : 'wjd0606',
-    database : 'o4',
+    password : 'wjdrlftjd123',
+    database : 'bono915',
     debug    :  false
 });
 
@@ -156,6 +156,10 @@ app.use(apply_confirm);
 var detailed_research = require('./routes/detailed_research')(app);
 app.use(detailed_research);
 
+var detailed_mystudy = require('./routes/detailed_mystudy')(app);
+app.use(detailed_mystudy);
+
+
 var research = require('./routes/research')(app);
 app.use(research);
 
@@ -165,6 +169,13 @@ app.use(update_class);
 var delete_class = require('./routes/delete_class')(app);
 app.use(delete_class);
 
+var delete_curriculum = require('./routes/delete_curriculum')(app);
+app.use(delete_curriculum);
+
+var member_leave = require('./routes/member_leave')(app);
+app.use(member_leave);
+
+member_leave
 //const hostname = '127.0.0.1';
 const port = 3001;
 http.listen(3001, function(){

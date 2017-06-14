@@ -8,6 +8,7 @@ html
   //script(src='http://code.jquery.com/jquery-1.9.1.min.js')
   script(src='/js/jquery.js')
   link(rel='stylesheet' href='css/jquery.mobile-1.4.5.css' )
+  link(rel='stylesheet' href='css/mobilestyle.css')
   script(src='/js/jquery.mobile-1.4.5.js')
 
  body
@@ -18,13 +19,12 @@ html
 
             //선생님일 경우
           div(data-role='content')
-           div(data-role='navbar').search_add_board
+           div(data-role='navbar')
              a(href='/add_class') 글쓰기
              input(data-type='search' id='filterControlgroup-input')
 
 
              each row in rows1
-
                 div(data-role='controlgroup' data-filter='true' data-input='#filterControlgroup-input').li_size
                  a(href="/detailed_research?cid=#{row.cid}" class='ui-btn ui-shadow ui-corner-all')
                   div

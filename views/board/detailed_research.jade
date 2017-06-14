@@ -7,6 +7,7 @@ html
   script(src='/js/jquery.js')
   link(rel='stylesheet' href='css/jquery.mobile-1.4.5.css' )
   script(src='/js/jquery.mobile-1.4.5.js')
+  link(rel='stylesheet' href='css/mobilestyle.css')
 
   script.
         $('#onoff').click(function(){
@@ -33,7 +34,7 @@ html
             h1 수업 정보
 
           div(role='main' class='ui-content jqm-content jqm-fullwidth')
-           div(data-role='navbar').search_add_board
+           div(data-role='navbar')
              input(type='button'  id='onoff' value='#{apply}' onclick='location.reload();').applybtn
              script.
                $("#onoff").click(function(){
@@ -92,7 +93,11 @@ html
              |E-mail: #{rows.email}
              br
              |주소: #{rows.address}
-             h5=rows.self_introduce
+             br
+             br
+             |소개
+             br
+             |#{rows.self_introduce}
 
             div
              if(cert==1)

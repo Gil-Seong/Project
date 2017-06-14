@@ -8,6 +8,7 @@ html
    // mobile stylesheet
    script(src='/js/jquery.js')
    link(rel='stylesheet' href='css/jquery.mobile-1.4.5.css' )
+   link(rel='stylesheet' href='css/mobilestyle.css')
    script(src='/js/jquery.mobile-1.4.5.js')
    script(src='/js/jquery.mobile-1.4.2.min.js')
    //script(src='//code.jquery.com/jquery-1.11.0.min.js')
@@ -48,11 +49,11 @@ html
         }); //#phone.keyup
         });
  body
-  H1 Hello Adduser Page
+  H1 회원가입
 
-  form(action='/adduser' method='post')
+  form(action='/adduser' method='post' data-ajax = 'false')
    p
-    input(type='text' name='userid' id='userid' placeholder='userid' require)
+    input(type='text' name='userid' id='userid' placeholder='userid' required)
     div(id='result')
     button(type='button' id='btn')
      |중복확인
@@ -72,34 +73,35 @@ html
           });
           });
    p
-    input(type='password' name='pass' id='pass' placeholder='password' require)
+    input(type='password' name='pass' id='pass' placeholder='password' required)
    p
-    input(type='password' name='chpass' id='chpass' placeholder='passwordcheck' require)
+    input(type='password' name='chpass' id='chpass' placeholder='passwordcheck' required)
     font(name='check' size='2' color='red')
    p
-    input(type='text' name='name' placeholder='name' require)
+    input(type='text' name='name' placeholder='name' required)
    p
-     input(type="radio" name="classify" id='authority_1' value='선' require)
+     input(type="radio" name="classify" id='authority_1' value='선' required)
      label(for='authority_1')
       |선생님
-     input(type="radio" name="classify" id='authority_2' value='학' require)
+     input(type="radio" name="classify" id='authority_2' value='학' required)
      label(for='authority_2')
       |학생&학부모
    p
-    input(type="radio" name="gender" id='gender_man' value='남' require)
+    input(type="radio" name="gender" id='gender_man' value='남' required)
     label(for='gender_man')
      |남자
-    input(type="radio" name="gender" id='gender_woman' value='여' require)
+    input(type="radio" name="gender" id='gender_woman' value='여' required)
     label(for='gender_woman')
      |여자
    p
-    input(type='date' name='birthday' value='')
+    |생년월일
+    input(type='date' name='birthday' value='' required)
    p
-    input(type='text' name='phonenumber' placeholder='phonenumber' id='phonenumber' require)
+    input(type='text' name='phonenumber' placeholder='phonenumber' id='phonenumber' required)
    p
-    input(type='text' name='email' placeholder='이메일' require)
+    input(type='text' name='email' placeholder='이메일' required)
    p
-    input(type='text' name='address' placeholder='address' require)
+    input(type='text' name='address' placeholder='address' required)
 
    p
     input(type='submit' value='확인')

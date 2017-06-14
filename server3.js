@@ -1,21 +1,50 @@
 var express = require('express');
-var routes = require('./routes');
 var http = require('http');
 var path = require('path');
+var redis = require('redis');
 
 var app = express();
-app.use(express.static(path.join('client3.html')));
-var httpServer =http.createServer(app).listen(8080, function(req,res){
-  console.log('Socket IO server has been started');
-});
-// upgrade http server to socket.io server
-var io = require('socket.io').listen(httpServer);
+var redisInfo = {
+    host: 'localhost',
+    port: 6379
+};
+var app = require('http').createServer(handler),
+    io = require('socket.io').listen(app),
+    fs = require('fs'),
+    RedisStore = require('socket.io/lib/stores/redis'),
+    //redis = require('socket.io/node_modules/redis'),
+    pub = redis.createClient(redisInfo.port, redisInfo.host),
+    sub = redis.createClient(redisInfo.port, redisInfo.host),
+    client = redis.createClient(redisInfo.port, redisInfo.host);
 
-io.sockets.on('connection',function(socket){
-   socket.emit('toclient',{msg:'Welcome !'});
-   socket.on('fromclient',function(data){
-       socket.broadcast.emit('toclient',data); // 자신을 제외하고 다른 클라이언트에게 보냄
-       socket.emit('toclient',data); // 해당 클라이언트에게만 보냄. 다른 클라이언트에 보낼려면?
-       console.log('Message from client :'+data.msg);
-   })
+if (process.argv.length < 3){
+    console.log('ex) node app <port>');
+    process.exit(1);
+}
+app.listen(process.argv[2]);
+
+function handler(req, res) {
+    fs.readFile('/client3.html',function (err, data) {
+            if (err) {
+                res.writeHead(500);
+                return res.end('Error loading index.html');
+            }
+            res.writeHead(200);
+            data = data.toString('utf-8').replace('<%=host%>', req.headers.host);
+            res.end(data);
+        });
+}
+
+io.configure(function(){
+    io.set('store', new RedisStore({
+        redisPub: pub,
+        redisSub : sub,
+        redisClient : client
+    }));
+});
+
+io.sockets.on('connection', function (socket) {
+    socket.on('message', function(data){
+        socket.broadcast.emit('message', data);
+    });
 });

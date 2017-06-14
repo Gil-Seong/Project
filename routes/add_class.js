@@ -16,10 +16,10 @@ var MySQLStore = require('express-mysql-session')(expressSession);
 var mysql = require('mysql');
 var pool = mysql.createPool({
     connectionLimit : 100, //important
-    host     : 'localhost',
+    host     : '210.123.254.226',
     user     : 'root',
-    password : 'wjd0606',
-    database : 'o4',
+    password : 'wjdrlftjd123',
+    database : 'bono915',
     debug    :  false
 });
 
@@ -36,22 +36,22 @@ route.post('/add_class', upload.single('userfile'), function(req,res){
 
 var userfile = req.session.displayName+req.file.originalname;
 
-//   if(req.file.size==0){
-//   var userfile = "default_img.png";
-// }else{
-//   var userfile = req.session.displayName+req.file.originalname;
-//
-// }
-  // if(userifle==null){
-  //   userfile ="default_img.png";
-  // }
-  // var tmp_path = req.file.path;
-  // var target_path = 'uploads/' +userfile;
 
   var class_title = req.body.class_title;
   var class_subject = req.body.class_subject;
-  var class_student = req.body.class_student.toString();
-  var class_style = req.body.class_style.toString();
+  var class_student;
+  var class_style;
+  if(req.body.class_student!=null){ //희망 학생이 null이 아닐 때
+    class_student=req.body.class_student.toString();
+  }else{ //희망 학생이 null일 때
+    class_student=req.body.class_student;
+  }
+  if(req.body.class_style!=null){ //과외 스타일이 null이 아닐 때
+    class_style=req.body.class_style.toString();
+  }else{ //과외 스타일이 null일 때
+    class_style=req.body.class_style;
+  }
+
   var experience = req.body.experience;
   var expense = req.body.expense;
   var self_introduce = req.body.self_introduce;
@@ -64,8 +64,6 @@ var userfile = req.session.displayName+req.file.originalname;
   console.log(expense);
   console.log(self_introduce);
   console.log(userfile);
-
-
 
   pool.getConnection(function(err,conn){
     if (err) {

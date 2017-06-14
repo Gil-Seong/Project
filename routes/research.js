@@ -8,10 +8,10 @@ var os = require('os');
 var ifaces = os.networkInterfaces();
 var pool = mysql.createPool({
     connectionLimit : 100, //important
-    host     : 'localhost',
+    host     : '210.123.254.226',
     user     : 'root',
-    password : 'wjd0606',
-    database : 'o4',
+    password : 'wjdrlftjd123',
+    database : 'bono915',
     debug    :  false
 });
 

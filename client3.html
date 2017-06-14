@@ -1,29 +1,43 @@
+<!DOCTYPE html>
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>socketio redis store</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io.connect('http://<%=host%>');
 
-    <title></title>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+        $(document).ready(function(){
+            socket.on('message', function(data){
+                $('#chat').append('<li>' + data.message + '</li>');
+            });
 
+            $('#btnSend').click(function(){
+                send();
+            });
+            $('#inputText').keyup(function(e){
+                if (e.keyCode == 13){
+                    send();
+                }
+            });
+        });
+        function send(){
+            var message = $('#inputText').val();
+            if (message.length < 1){
+                return;
+            }
+            socket.emit('message', {message:message});
+            $('#chat').append('<li>' + message + '</li>');
+            $('#inputText').val('');
+        }
+    </script>
 </head>
 <body>
-    <b>Send message</b><p>
-    Message  <input type="text" id="msgbox"/>
-    <br>
-    <span id="msgs"></span>
-
-    <script type="text/javascript">
-        var socket = io.connect('http://localhost');
-        $("#msgbox").keyup(function(event) {
-            if (event.which == 13) {
-                socket.emit('fromclient',{msg:$('#msgbox').val()});
-                $('#msgbox').val('');
-            }
-        });
-        socket.on('toclient',function(data){
-            console.log(data.msg);
-            $('#msgs').append(data.msg+'<BR>');
-        });
-    </script>
+    socketio redis store...<br />
+    <input type="text" id="inputText" />
+    <button id="btnSend">보내기</button>
+    <ul id="chat">
+    </ul>
 </body>
 </html>

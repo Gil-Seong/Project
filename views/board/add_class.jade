@@ -6,6 +6,7 @@ html
   script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js')
   script(src='/js/jquery.js')
   link(rel='stylesheet' href='css/jquery.mobile-1.4.5.css' )
+  link(rel='stylesheet' href='css/mobilestyle.css')
   script(src='/js/jquery.mobile-1.4.5.js')
 
 
@@ -19,13 +20,13 @@ html
             div(data-role='navbar')
               form(action='/add_class' method='post' enctype="multipart/form-data" data-ajax = 'false')
                 label(for='userfile')
-                input(type='file' name='userfile' id='userfile' data-clear-btn='true' value='')
+                input(type='file' name='userfile' id='userfile' data-clear-btn='true' value='' required)
                 br
-                input(type='text' name='class_title' placeholder='수강 제목' require)
+                input(type='text' name='class_title' placeholder='수강 제목' required)
                 br
-                input(type='text' name='class_subject' placeholder='수강 과목' require)
+                input(type='text' name='class_subject' placeholder='수강 과목' required)
                 br
-                fieldset(data-role='controlgroup' data-type='horizontal' data-mini='true')
+                fieldset(data-role='controlgroup' data-type='horizontal' data-mini='true' required)
                   legend 수업대상
                   input(type='checkbox' name='class_student' id='student_ch1' value='유치원생')
                   label(for='student_ch1')
@@ -50,7 +51,7 @@ html
                    |일반인
                 br
 
-                fieldset(data-role='controlgroup' data-type='horizontal' data-mini='true')
+                fieldset(data-role='controlgroup' data-type='horizontal' data-mini='true' required)
                   legend 수업스타일
                   input(type='checkbox' name='class_style' id='style_ch1' value='체계적인')
                   label(for='style_ch1')
@@ -80,9 +81,9 @@ html
                   label(for='style_ch9')
                    |재치있는
                 br
-                input(type='text' name='experience' placeholder='과외 경력' require)
+                input(type='text' name='experience' placeholder='과외 경력' required)
                 br
-                input(type='text' name='expense' placeholder='희망 과외비' require)
+                input(type='text' name='expense' placeholder='희망 과외비' required)
                 br
                 |자기소개
                 textarea(name='self_introduce')

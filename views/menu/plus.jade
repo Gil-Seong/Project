@@ -5,13 +5,19 @@ html
   // mobile stylesheet
   script(src='/js/jquery.js')
   link(rel='stylesheet' href='css/jquery.mobile-1.4.5.css' )
+  link(rel='stylesheet' href='css/mobilestyle.css')
   script(src='/js/jquery.mobile-1.4.5.js')
 
  body
           div(data-role='header', data-position='fixed', data-fullscreen='false')
             a(href='/', data-rel='back', data-icon='back') Back
             a(href='/', data-icon='home', data-iconpos='notext') 홈
-            h1 Hello Plus
+            h1 더보기
+
+          div(data-role='content')
+           div(style="text-align:center; padding-top:50%;")
+            |서비스 준비중입니다.
+
           div(data-role='footer', data-position='fixed')
            div(data-role='navbar')
             ul

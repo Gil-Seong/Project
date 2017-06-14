@@ -7,13 +7,14 @@ html
   style.
      .map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
      .map_wrap a, .map_wrap a:hover, .map_wrap a:active{text-decoration: none;}
-     .map_wrap {position:absolute;width:100%;height:23%;}
-     #menu_wrap {position:absolute;top:0;left:0;bottom:0;width:250px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
+     .map_wrap {position:absolute;width:100%;height:160px;}
+     #menu_wrap {position:absolute;top:0;left:0;bottom:0;width:120px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
 
      .bg_white {background:#fff;}
   script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js')
   script(src='/js/jquery.js')
   link(rel='stylesheet' href='css/jquery.mobile-1.4.5.css' )
+  link(rel='stylesheet' href='css/mobilestyle.css')
   script(src='/js/jquery.mobile-1.4.5.js')
   script.
       $('#btn').click(function(){
@@ -28,8 +29,8 @@ html
 
            div(data-role='content')
 
-              div(style='padding-top:60px')
-               |*과외위치찾기
+              div(style='padding-top:10px')
+               |과외위치찾기
                .map_wrap
                  #map(style='width:100%;height:300px;position:relative;overflow:hidden;')
                  #menu_wrap.bg_white
@@ -166,6 +167,7 @@ html
                   data:{'title':title,'place':placePosition.toString()},
                   success:function(place){
                   $("#place_title").attr("value",place['place_title']);
+
                   $("#place_position").attr("value",place['place_position']);
                   }
                   });
@@ -174,10 +176,50 @@ html
                   }
              div(style='padding-top:300px')
                form(action='/add_curriculum' method='post')
-                |과외위치:
-                input(type='text' name='place_title' id='place_title' value='' require)
+                input(type='text' name='place_title' id='place_title' required)
                 br
-                input(type='text' name='place_position' id='place_position' value='' require)
+                input(type='hidden' name='place_position' id='place_position' )
+                br
+                |커리큘럼 제목
+                input(type='text' name='curriculum_title' required)
+                |시작시간
+                input(type='time' name='start_time' value='' required)
+                |종료시간
+                input(type='time' name='end_time' value='' required)
+                |과외날짜
+                input(type='date' name='class_date' value='' required)
+                |숙제
+                button(type='button', id='add' , data-icon='gear', data-iconpos='right', data-mini='true', data-inline='true') Add
+                button(type='button', id='remove' , data-icon='gear', data-iconpos='right', data-mini='true', data-inline='true') remove
+                input(type='hidden', name='count', id='count' )
+                div(id='set', data-role='collapsibleset', data-content-theme='a', data-iconpos='right')
+                  div(id='set1', data-role='collapsible', data-collapsed='true')
+                script.
+                  $( document ).on( "pagecreate", function() {
+                      var nextId = 0;
+                      $("#add").click(function() {
+                          ++nextId;
+                          var content = "<div data-role='collapsible' id='set" + nextId + "'><h3>숙제 " + nextId + "</h3><input type='text' name='homework"+nextId+"' style='width:100%'></div>";
+                          $( "#set" ).append( content ).collapsibleset( "refresh" );
+                          $("#count").attr("value",nextId);
+                      });
+                      $("#remove").click(function() {
+                          if(nextId!=0){
+                          $( '#set'+nextId ).last().remove().collapsibleset( "refresh" );
+                          --nextId;
+                          $("#count").attr("value",nextId);
+                          }
+                      });
+
+
+                  });
+                br
+                |comment
+                textarea(name='comment')
+                input(type='hidden' name='phonenumber1' value='#{phonenumber1}')
+                input(type='hidden' name='phonenumber2' value='#{phonenumber2}')
+                input(type='submit' value='확인')
+                input(type='reset' value='다시작성')
 
 
 

@@ -2,201 +2,62 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>키워드로 장소검색하고 목록으로 표출하기</title>
+    <title>이미지 마커와 커스텀 오버레이</title>
     <style>
-.map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
-.map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
-.map_wrap {position:relative;width:100%;height:80px;}
-#menu_wrap {position:absolute;top:0;left:0;bottom:0;width:250px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
-.bg_white {background:#fff;}
-
+.customoverlay {position:relative;bottom:85px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
+.customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
+.customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden;background: #d95050;background: #d95050 url(http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
+.customoverlay .title {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
+.customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
 </style>
 </head>
 <body>
-<div class="map_wrap">
-    <div id="map" style="width:100%;height:500px;position:relative;overflow:hidden;"></div>
+<div id="map" style="width:100%;height:350px;"></div>
 
-    <div id="menu_wrap" class="bg_white">
-        <div class="option">
-            <div>
-                <form onsubmit="searchPlaces(); return false;">
-                    키워드 : <input type="text" value="이태원 맛집" id="keyword" size="15">
-                    <button type="submit">검색하기</button>
-                </form>
-            </div>
-        </div>
-        <hr>
-        <ul id="placesList"></ul>
-        <div id="pagination"></div>
-    </div>
-</div>
-
-<script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey=16acf0d6b065f9319303dc13ad6e2059&libraries=services"></script>
+<script type="text/javascript" src="http://apis.daum.net/maps/maps3.js?apikey=47fc40718657f3d1bd9594d1233a6b83"></script>
 <script>
-// 마커를 담을 배열입니다
-var markers = [];
-
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-    mapOption = {
-        center: new daum.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-        level: 3 // 지도의 확대 레벨
+  mapOption = {
+        center: new daum.maps.LatLng(37.6487490, 127.0643200), // 지도의 중심좌표
+        level: 4 // 지도의 확대 레벨
     };
 
-// 지도를 생성합니다
 var map = new daum.maps.Map(mapContainer, mapOption);
 
-// 장소 검색 객체를 생성합니다
-var ps = new daum.maps.services.Places();
+var imageSrc = 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png', // 마커이미지의 주소입니다
+    imageSize = new daum.maps.Size(64, 69), // 마커이미지의 크기입니다
+    imageOprion = {offset: new daum.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
-// 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
-var infowindow = new daum.maps.InfoWindow({zIndex:1, removable : true});
+// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize, imageOprion),
+    markerPosition = new daum.maps.LatLng(37.6487490, 127.0643200); // 마커가 표시될 위치입니다
 
-// 키워드로 장소를 검색합니다
-searchPlaces();
+// 마커를 생성합니다
+var marker = new daum.maps.Marker({
+  position: markerPosition,
+  image: markerImage // 마커이미지 설정
+});
 
-// 키워드 검색을 요청하는 함수입니다
-function searchPlaces() {
+// 마커가 지도 위에 표시되도록 설정합니다
+marker.setMap(map);
 
-    var keyword = document.getElementById('keyword').value;
+// 커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+var content = '<div class="customoverlay">' +
+    '  <a href="http://map.daum.net/?map_type=DEFAULT&map_hybrid=false&q=37.6487490,127.0643200" target="_blank">' +
+    '    <span class="title">한국성서대학교</span>' +
+    '  </a>' +
+    '</div>';
 
-    if (!keyword.replace(/^\s+|\s+$/g, '')) {
-        alert('키워드를 입력해주세요!');
-        return false;
-    }
+// 커스텀 오버레이가 표시될 위치입니다
+var position = new daum.maps.LatLng(37.6487490, 127.0643200);
 
-    // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
-    ps.keywordSearch( keyword, placesSearchCB);
-}
-
-// 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
-function placesSearchCB(status, data, pagination) {
-    if (status === daum.maps.services.Status.OK) {
-
-        // 정상적으로 검색이 완료됐으면
-        // 마커를 표출합니다
-        displayPlaces(data.places);
-
-
-
-    } else if (status === daum.maps.services.Status.ZERO_RESULT) {
-
-        alert('검색 결과가 존재하지 않습니다.');
-        return;
-
-    } else if (status === daum.maps.services.Status.ERROR) {
-
-        alert('검색 결과 중 오류가 발생했습니다.');
-        return;
-
-    }
-}
-
-// 검색 결과 목록과 마커를 표출하는 함수입니다
-function displayPlaces(places) {
-
-    var listEl = document.getElementById('placesList'),
-    menuEl = document.getElementById('menu_wrap'),
-    fragment = document.createDocumentFragment(),
-    bounds = new daum.maps.LatLngBounds(),
-    listStr = '';
-
-    // 검색 결과 목록에 추가된 항목들을 제거합니다
-
-    // 지도에 표시되고 있는 마커를 제거합니다
-    removeMarker();
-
-    for ( var i=0; i<places.length; i++ ) {
-
-        // 마커를 생성하고 지도에 표시합니다
-        var placePosition = new daum.maps.LatLng(places[i].latitude, places[i].longitude),
-            position = places[i].latitude;
-            marker = addMarker(placePosition, i),
-            itemEl = getListItem(i, places[i], marker); // 검색 결과 항목 Element를 생성합니다
-
-        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-        // LatLngBounds 객체에 좌표를 추가합니다
-        bounds.extend(placePosition);
-
-        // 마커와 검색결과 항목에 click 했을때
-        // 해당 장소에 인포윈도우에 장소명을 표시합니다
-
-        (function(marker, title,placePosition) {
-            daum.maps.event.addListener(marker, 'click', function() {
-                displayInfowindow(marker, title,placePosition);
-            });
-
-
-
-        })(marker, places[i].title,placePosition);
-
-        fragment.appendChild(itemEl);
-    }
-
-    // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-    map.setBounds(bounds);
-}
-
-// 검색결과 항목을 Element로 반환하는 함수입니다
-function getListItem(index, places) {
-
-    var el = document.createElement('li'),
-    itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
-                '<div class="info">' +
-                '   <h5>' + places.title + '</h5>';
-
-
-
-    el.innerHTML = itemStr;
-    return el;
-}
-
-// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
-function addMarker(position, idx, title) {
-    var imageSrc = 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
-        imageSize = new daum.maps.Size(36, 37),  // 마커 이미지의 크기
-        imgOptions =  {
-            spriteSize : new daum.maps.Size(36, 691), // 스프라이트 이미지의 크기
-            spriteOrigin : new daum.maps.Point(0, (idx*46)+10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
-            offset: new daum.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
-        },
-        markerImage = new daum.maps.MarkerImage(imageSrc, imageSize, imgOptions),
-            marker = new daum.maps.Marker({
-            position: position, // 마커의 위치
-
-            image: markerImage
-        });
-
-    marker.setMap(map); // 지도 위에 마커를 표출합니다
-    markers.push(marker);  // 배열에 생성된 마커를 추가합니다
-
-    return marker;
-}
-
-// 지도 위에 표시되고 있는 마커를 모두 제거합니다
-function removeMarker() {
-    for ( var i = 0; i < markers.length; i++ ) {
-        markers[i].setMap(null);
-    }
-    markers = [];
-}
-
-
-
-// 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
-// 인포윈도우에 장소명을 표시합니다
-function displayInfowindow(marker, title,placePosition) {
-    var content = '<div style="padding:5px;z-index:1;"><a href="/add_curriculum">'+title+'</a> </div>';
-    //var content = '<div style="padding:5px;z-index:1;">' + placePosition + '</div>'; 좌표값 호출
-
-    daum.maps.event.addListener(marker, 'click', function() {
-          // 마커 위에 인포윈도우를 표시합니다
-          infowindow.setContent(content);
-          infowindow.open(map, marker);
-
-    });
-}
-
-
+// 커스텀 오버레이를 생성합니다
+var customOverlay = new daum.maps.CustomOverlay({
+    map: map,
+    position: position,
+    content: content,
+    yAnchor: 1
+});
 </script>
 </body>
 </html>

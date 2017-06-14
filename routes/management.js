@@ -6,10 +6,10 @@ var MySQLStore = require('express-mysql-session')(expressSession);
 var mysql = require('mysql');
 var pool = mysql.createPool({
     connectionLimit : 100, //important
-    host     : 'localhost',
+    host     : '210.123.254.226',
     user     : 'root',
-    password : 'wjd0606',
-    database : 'o4',
+    password : 'wjdrlftjd123',
+    database : 'bono915',
     debug    :  false
 });
 route.get('/management/user',function(req,res){
@@ -83,6 +83,42 @@ route.post('/user_delete',function(req,res){
             });
         });
       });
+
+      route.get('/management/curriculum',function(req,res){
+        var sql = 'SELECT curriculum_id, curriculum_title, DATE_FORMAT(class_date,"%Y-%m-%d") class_date, place_title FROM curriculum';
+
+        pool.getConnection(function(err,conn){
+            if (err) {
+              console.log({"code" : 100, "status" : "Error in connection database"});
+              return;
+            }
+            conn.query(sql,function(err,rows,fields){
+                conn.release();
+                if(!err) {
+
+                    res.render('management/management_curriculum', {rows:rows, count:1});
+                }
+            });
+        });
+        });
+
+        route.post('/curriculum_delete',function(req,res){
+            var curriculum_id=req.body.curriculum_id;
+            var sql = "DELETE FROM curriculum WHERE curriculum_id=?";
+
+            pool.getConnection(function(err,conn){
+                if (err) {
+                  console.log({"code" : 100, "status" : "Error in connection database"});
+                  return;
+                }
+                conn.query(sql,[curriculum_id],function(err,result){
+                    conn.release();
+                    if(!err) {
+                        res.redirect('management/curriculum');
+                    }
+                });
+            });
+          });
 
 
 return route;

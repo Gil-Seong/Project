@@ -9,7 +9,7 @@ html
   //link(rel='stylesheet', href='css/style.css' media='screen and (min-width:700px)')
 
   // mobile stylesheet
-
+  link(rel='stylesheet' href='css/mobilestyle.css')
   script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js')
   script(src='/js/jquery.js')
   link(rel='stylesheet' href='css/jquery.mobile-1.4.5.css' )
@@ -29,9 +29,11 @@ html
                a(href='/management/user', data-transition='flip') user 관리
              li
                a.ui-btn-active(href='/management/class', data-transition='flip') class 관리
+             li
+               a(href='/management/curriculum', data-transition='flip') curriculum 관리
 
        div(data-role='content')
-         table(data-role='table' id='movie-table' data-filter='true' data-input='#filterTable-input2' class='ui-responsive' border='1')
+         table(data-role='table' id='movie-table' data-filter='true' data-input='#filterTable-input2' class='ui-responsive' border='1' style='font-size:0.5em;')
           caption 수업신청 목록
            input(id='filterTable-input2' data-type='search')
           thead
@@ -41,7 +43,7 @@ html
               th(data-priority='3') 제목
               th(data-priority='4') 과목
               th(data-priority='5') 비용
-              th(data-priority='6') class_drop
+              th(data-priority='6' style='width:10%') class_drop
             each row in rows
              tr
               td=count++
@@ -50,9 +52,9 @@ html
               td=row.class_subject
               td=row.expense
               td
-               form(action='/class_delete' method='post')
+               form(action='/class_delete' method='post' )
                 input(type="hidden" name='cid' value=row.cid)
-                input(type='submit' value='DROP')
+                input(type='submit' value='DROP' data-mini='true' data-inline='true')
        div(data-role='footer', data-position='fixed')
         div(data-role='navbar')
              // footer 끝

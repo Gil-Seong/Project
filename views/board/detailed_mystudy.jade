@@ -1,0 +1,70 @@
+doctype html
+html
+ head
+  meta(charset ='utf-8' name='viewport' content='user-scalable=no, width=device-width, initial-scale=1' )
+  // mobile stylesheet
+  style.
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js')
+  script(src='/js/jquery.js')
+  link(rel='stylesheet' href='css/jquery.mobile-1.4.5.css' )
+  link(rel='stylesheet' href='css/mobilestyle.css')
+  script(src='/js/jquery.mobile-1.4.5.js')
+  style.
+      .customoverlay {position:relative;bottom:85px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
+      .customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
+      .customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden;background: #d95050;background: #d95050 url(http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
+      .customoverlay .title {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
+      .customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+
+  body
+        div(data-role='header', data-position='fixed', data-fullscreen='false')
+             a(href='/', data-rel='back', data-iconpos='notext') back
+             a(href='/', data-icon='home', data-iconpos='notext') 홈
+             h1 커리큘럼 정보
+
+        div(data-role='content' )
+          div(style='border:groove')
+           |제목: #{rows.curriculum_title}
+           br
+           |날짜: #{rows.class_date}
+           br
+           |시간: #{rows.start_time} ~ #{rows.end_time}
+           br
+           |장소: #{rows.place_title}
+           br
+           if(rows2)
+            each row2 in rows2
+             |숙제#{count++}: #{row2.homework_content}
+             br
+
+           br
+           |comment : #{rows.comment}
+
+          div
+            if(cert==1)
+             form(action='/delete_curriculum' method='post')
+              input(type='hidden' name='curriculum_id' value='#{curriculum_id}')
+              input(type='submit' value='삭제' id='delete')
+              script.
+               $("#delete").click(function(){
+               alert('삭제되었습니다.');
+               });
+
+
+
+        div(data-role='footer', data-position='fixed')
+            div(data-role='navbar' )
+             ul
+               li
+                 a(href='/research',data-transition='slide', data-icon='search' ) 과외찾기
+               li
+                 a.ui-btn-active(href='/mystudy',data-transition='slide', data-icon='bullets') 마이과외
+               li
+                 a(href='/chatting',data-transition='slide', data-icon='comment') 채팅
+               li
+                 a(href='/mypage',data-transition='slide', data-icon='user') 마이페이지
+               li
+                 a(href='/plus',data-transition='slide', data-icon='bars') 더보기
+
+           // navbar 끝
+         // footer 끝
